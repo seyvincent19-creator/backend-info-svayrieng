@@ -1,0 +1,105 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class SamplePostSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $author = User::first();
+        $categories = Category::all();
+
+        // Create sample tags
+        $tags = [
+            ['name' => 'ស្វាយរៀង', 'slug' => 'svay-rieng'],
+            ['name' => 'អភិវឌ្ឍន៍', 'slug' => 'development'],
+            ['name' => 'សន្តិសុខ', 'slug' => 'security'],
+            ['name' => 'កីឡា', 'slug' => 'sports'],
+            ['name' => 'វប្បធម៌', 'slug' => 'culture'],
+        ];
+
+        foreach ($tags as $tagData) {
+            Tag::firstOrCreate(['slug' => $tagData['slug']], $tagData);
+        }
+
+        // Sample posts
+        $posts = [
+            [
+                'title' => 'ព្រឹត្តិការណ៍សំខាន់ៗនៅខេត្តស្វាយរៀង',
+                'excerpt' => 'សង្ខេបនៃព្រឹត្តិការណ៍សំខាន់ៗដែលបានកើតឡើងនៅក្នុងខេត្តស្វាយរៀង',
+                'content' => '<p>នេះគឺជាខ្លឹមសារនៃព្រឹត្តិការណ៍សំខាន់ៗដែលបានកើតឡើងនៅក្នុងខេត្តស្វាយរៀង។ មន្ទីរព័ត៌មានខេត្តស្វាយរៀងបន្តផ្សព្វផ្សាយព័ត៌មានដែលជាប្រយោជន៍ដល់ប្រជាពលរដ្ឋ។</p>',
+                'category_slug' => 'important-news',
+                'is_featured' => true,
+                'is_breaking' => true,
+            ],
+            [
+                'title' => 'ការអភិវឌ្ឍន៍ហេដ្ឋារចនាសម្ព័ន្ធក្នុងខេត្ត',
+                'excerpt' => 'ព័ត៌មានអំពីគម្រោងអភិវឌ្ឍន៍ហេដ្ឋារចនាសម្ព័ន្ធថ្មីៗ',
+                'content' => '<p>រដ្ឋាភិបាលបានអនុម័តគម្រោងអភិវឌ្ឍន៍ហេដ្ឋារចនាសម្ព័ន្ធជាច្រើនក្នុងខេត្តស្វាយរៀង រួមទាំងផ្លូវថ្នល់ និងស្ពានថ្មីៗ។</p>',
+                'category_slug' => 'politics-development',
+                'is_featured' => true,
+            ],
+            [
+                'title' => 'ពិធីបុណ្យប្រពៃណីខ្មែរនៅស្វាយរៀង',
+                'excerpt' => 'ការប្រារព្ធពិធីបុណ្យប្រពៃណីខ្មែរដ៏ពិសេស',
+                'content' => '<p>ប្រជាពលរដ្ឋក្នុងខេត្តស្វាយរៀងបានប្រារព្ធពិធីបុណ្យប្រពៃណីខ្មែរដោយក្តីរីករាយ។</p>',
+                'category_slug' => 'culture-tourism',
+            ],
+            [
+                'title' => 'ស្ថានភាពសន្តិសុខល្អប្រសើរ',
+                'excerpt' => 'របាយការណ៍ស្ថានភាពសន្តិសុខក្នុងខេត្ត',
+                'content' => '<p>ស្ថានភាពសន្តិសុខក្នុងខេត្តស្វាយរៀងនៅតែមានស្ថិរភាពល្អ។</p>',
+                'category_slug' => 'security-society',
+            ],
+            [
+                'title' => 'ព័ត៌មានកីឡាប្រចាំសប្តាហ៍',
+                'excerpt' => 'សកម្មភាពកីឡាក្នុងខេត្តស្វាយរៀង',
+                'content' => '<p>ការប្រកួតកីឡាជាច្រើនបានប្រារព្ធឡើងក្នុងសប្តាហ៍នេះ។</p>',
+                'category_slug' => 'sports-news',
+            ],
+            [
+                'title' => 'ព័ត៌មានអន្តរជាតិសំខាន់ៗ',
+                'excerpt' => 'សង្ខេបព័ត៌មានអន្តរជាតិ',
+                'content' => '<p>ព័ត៌មានអន្តរជាតិសំខាន់ៗដែលទាក់ទងនឹងកម្ពុជា។</p>',
+                'category_slug' => 'international-news',
+            ],
+            [
+                'title' => 'វីដេអូ៖ សកម្មភាពក្នុងខេត្ត',
+                'excerpt' => 'វីដេអូបង្ហាញសកម្មភាពក្នុងខេត្តស្វាយរៀង',
+                'content' => '<p>វីដេអូបង្ហាញពីសកម្មភាពផ្សេងៗក្នុងខេត្តស្វាយរៀង។</p>',
+                'category_slug' => 'video-news',
+                'type' => 'video',
+                'video_url' => 'https://www.youtube.com/watch?v=example',
+            ],
+        ];
+
+        $allTags = Tag::all();
+
+        foreach ($posts as $postData) {
+            $category = $categories->firstWhere('slug', $postData['category_slug']);
+            if (!$category) continue;
+
+            unset($postData['category_slug']);
+
+            $post = Post::firstOrCreate(
+                ['title' => $postData['title']],
+                array_merge($postData, [
+                    'category_id' => $category->id,
+                    'author_id' => $author->id,
+                    'status' => 'published',
+                    'published_at' => now()->subDays(rand(0, 30)),
+                    'views' => rand(100, 5000),
+                ])
+            );
+
+            // Attach random tags
+            $post->tags()->sync($allTags->random(rand(1, 3))->pluck('id'));
+        }
+    }
+}
