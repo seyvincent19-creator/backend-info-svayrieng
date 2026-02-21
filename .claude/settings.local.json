@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(cd /Users/apple/Documents/1.Laravel\\\\ Project/info-svayrieng/backend && git init && git add . && git commit -m \"$\\(cat <<'EOF'\nInitial commit\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/seyvincent19-creator/backend-info-svayrieng)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://github.com/seyvincent19-creator/backend-info-svayrieng)",
+      "Bash(cd /Users/apple/Documents/1.Laravel\\\\ Project/info-svayrieng/backend && git add . && git commit -m \"$\\(cat <<'EOF'\nUpdate bootstrap/app.php\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>\nEOF\n\\)\" && git push)"
     ]
   }
 }
